@@ -6,7 +6,12 @@
     <title>home</title>
 </head>
 <body>
-    <a href="/member/login">[구글 로그인]</a>
-    <a href="/member/signup">[회원가입]</a>
+    <% if(typeof passport !== 'undefined'){%>
+        <h2>반가워요 ! <%=passport.user.name%>님</h2>
+        <a href="/chat">[채팅하러가기]</a>
+        <a href="/member/logout">[로그아웃]</a>
+    <%} else{ %>
+        <a href="/member/login">[구글 로그인]</a>
+        <%}%>
 </body>
 </html>
