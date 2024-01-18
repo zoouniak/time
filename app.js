@@ -1,13 +1,26 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const passport = require("passport");
-const passportConfig = require("./passport");
-const memberRouter = require("./router/member");
-passportConfig();
+const socket = require("socket.io");
+const http = require("http");
 require("dotenv").config();
 
+// db connnection
+const connect = require("./config");
+connect();
+
+// passport config
+const passport = require("passport");
+const passportConfig = require("./passport");
+passportConfig();
+
+// router
+const memberRouter = require("./router/member");
+
 const app = express();
+const server = http.createServer(app);
+const io = socket(server);
+
 // ejs 설정
 app.set("views", __dirname + "/view");
 app.set("view engine", "ejs");
@@ -38,6 +51,7 @@ app.get("/", (req, res) => {
   obj = req.session;
   res.render("home", obj);
 });
+
 app.listen(process.env.PORT, () => {
   console.log("대기중");
 });

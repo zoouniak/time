@@ -1,6 +1,6 @@
 const passport = require("passport");
 const googleStrategy = require("passport-google-oauth2").Strategy;
-const db = require("../config");
+const member = require("../model/member");
 require("dotenv").config();
 
 module.exports = () => {
@@ -15,22 +15,25 @@ module.exports = () => {
       async (request, accessToken, refreshToken, profile, done) => {
         try {
           //db 조회
-          const DB = await db;
-          const member = await DB.collection("member");
           const user = await member.findOne({ email: profile.emails[0].value });
           if (user) {
             done(null, user);
           } else {
-            const newUser = await member.insertOne({
+            // db에 없을 시 회원 저장
+            const User = new member({
               email: profile.emails[0].value,
-              name: profile.name,
+              name: {
+                givenName: profile.name.givenName,
+                familyName: profile.name.familyName,
+              },
               gender: profile.gender,
             });
+            const newUser = await User.save();
             done(null, newUser);
           }
         } catch (err) {
           console.error(err);
-          done(error);
+          done(err);
         }
       }
     )
