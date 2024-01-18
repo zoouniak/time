@@ -16,8 +16,13 @@ passportConfig();
 
 // router
 const memberRouter = require("./router/member");
+const chatRouter = require("./router/chat");
+const exp = require("constants");
 
 const app = express();
+app.use(express.json()); // parse JSON body
+app.use(express.urlencoded({ extended: true })); // parse url-encoded body
+
 const server = http.createServer(app);
 const io = socket(server);
 
@@ -45,6 +50,7 @@ app.use(passport.session()); // req.session 객체에 passport정보를 추가 �
 // passport.session()이 실행되면, 세션쿠키 정보를 바탕으로 해서 passport/index.js의 deserializeUser()가 실행하게 한다.
 
 app.use("/member", memberRouter);
+app.use("/chat", chatRouter);
 
 app.get("/", (req, res) => {
   obj = {};

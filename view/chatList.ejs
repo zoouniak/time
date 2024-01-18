@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/">[홈으로]</a> 
+    <a href="/chat/create">[채팅방 개설]</a>
+    <hr>
+    <table border="1">
+        <tr>
+        <th>방 이름</th>
+        <th>방장</th>
+        <th>인원</th>
+        <th>방 소개</th>
+    </tr>
+        <% for(let room of rooms){%>
+            <tr>
+            <td><a href="/chat/<%=room.id%>"><%=room.name%></a></td>
+            <td><%=room.master%></td>
+            <td><%=room.count%></td>
+            <td><%=room.info%></td>
+        </tr>
+        <%}%>
+    </table>
+</body>
+</html>
