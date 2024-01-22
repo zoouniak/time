@@ -58,6 +58,13 @@ app.get("/", (req, res) => {
   res.render("home", obj);
 });
 
-app.listen(process.env.PORT, () => {
+io.on("connection", (socket) => {
+  // 소켓 커넥션이 성공적으로 이루어졌을 때 실행되는 이벤트 처리
+  socket.on("chat message", (msg) => {
+    io.emit("chat message", msg); // Broadcast the message to all connected clients
+  });
+});
+
+server.listen(process.env.PORT, () => {
   console.log("대기중");
 });
