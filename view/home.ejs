@@ -6,9 +6,12 @@
     <title>home</title>
 </head>
 <body>
+    <h1>Time : Internation Exchange Club</h1>
     <% if(typeof passport !== 'undefined'){%>
         <h2>반가워요 ! <%=passport.user.name%>님</h2>
-        <a href="/chat">[채팅하러가기]</a>
+        <a href="/chat">[채팅하러가기]</a><br><br>
+        <a href="/notice">[공지사항 확인]</a><br><br>
+        <a href="/apply">[지원하기]</a><br><br>
         <a href="/member/logout">[로그아웃]</a>
     <%} else{ %>
         <a href="/member/login">[구글 로그인]</a>
