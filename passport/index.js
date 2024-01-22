@@ -1,7 +1,7 @@
 const passport = require("passport");
 const google = require("./googleStrategy");
 
-const db = require("../config");
+const member = require("../model/member");
 
 module.exports = () => {
   passport.serializeUser((user, done) => {
@@ -14,10 +14,9 @@ module.exports = () => {
   });
 
   passport.deserializeUser(async (user, done) => {
-    const DB = await db;
-    const User = await DB.collection("member");
-    User.findOne({ email: user.email }) // user object attacthed to the req.user
-      .then((User) => done(null, User))
+    member
+      .findOne({ email: user.email }) // user object attacthed to the req.user
+      .then((member) => done(null, member))
       .catch((err) => done(err));
   });
 
