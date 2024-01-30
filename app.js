@@ -17,6 +17,7 @@ passportConfig();
 // router
 const memberRouter = require("./router/member");
 const chatRouter = require("./router/chat");
+const noticeRouter = require("./router/notice");
 const exp = require("constants");
 
 const app = express();
@@ -51,6 +52,7 @@ app.use(passport.session()); // req.session 객체에 passport정보를 추가 �
 
 app.use("/member", memberRouter);
 app.use("/chat", chatRouter);
+app.use("/notice", noticeRouter);
 
 app.get("/", (req, res) => {
   obj = {};

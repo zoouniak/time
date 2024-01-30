@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/">[홈으로]</a>
+    <a href="/notice/save/verify">[공지사항 작성_회장만]</a>
+    <table border="1">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성시간</th>
+            <th>조회수</th>
+        </tr>
+        <% for(let notice of notices){ %>
+        <tr>
+            <td><a href="/notice/<%=notice.id%>"><%=notice.noticeId%></a></td>    
+            <td><%=notice.title%></td>
+            <td><%=moment(notice.writeTime).format('Do MMMM, YYYY');%></td>
+            <td><%=notice.readCnt%></td>
+        </tr>
+            <%}%>
+        
+    </table>
+</body>
+</html>
