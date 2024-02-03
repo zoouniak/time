@@ -16,8 +16,13 @@ passportConfig();
 
 // router
 const memberRouter = require("./router/member");
+const chatRouter = require("./router/chat");
+const exp = require("constants");
 
 const app = express();
+app.use(express.json()); // parse JSON body
+app.use(express.urlencoded({ extended: true })); // parse url-encoded body
+
 const server = http.createServer(app);
 const io = socket(server);
 
@@ -35,7 +40,6 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     cookie: {
       httpOnly: true,
-      secure: false,
     },
   })
 );
@@ -45,6 +49,7 @@ app.use(passport.session()); // req.session 객체에 passport정보를 추가 �
 // passport.session()이 실행되면, 세션쿠키 정보를 바탕으로 해서 passport/index.js의 deserializeUser()가 실행하게 한다.
 
 app.use("/member", memberRouter);
+app.use("/chat", chatRouter);
 
 app.get("/", (req, res) => {
   obj = {};
@@ -52,6 +57,13 @@ app.get("/", (req, res) => {
   res.render("home", obj);
 });
 
-app.listen(process.env.PORT, () => {
+io.on("connection", (socket) => {
+  // 소켓 커넥션이 성공적으로 이루어졌을 때 실행되는 이벤트 처리
+  socket.on("chat message", (msg) => {
+    io.emit("chat message", msg); // Broadcast the message to all connected clients
+  });
+});
+
+server.listen(process.env.PORT, () => {
   console.log("대기중");
 });
